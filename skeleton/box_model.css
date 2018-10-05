@@ -1,0 +1,28 @@
+#first-div {
+  background-color: #39cccc;
+
+}
+
+#second-div {
+  background-color: #ff4136;
+  /* box-sizing: border-box; */
+}
+
+p {
+  background-color: #7fdbff;
+}
+
+/* div:last-child {
+  box-sizing: border-box;
+} */
+
+div {
+  height: 400px fit-content;
+  width: 400px fit-content;
+  padding: 50px;
+  border: 5px solid black;
+  font-size: 20px
+
+  }
+
+div
