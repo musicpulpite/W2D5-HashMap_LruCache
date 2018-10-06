@@ -9,6 +9,7 @@ class HashMap
   def initialize(num_buckets = 8)
     @store = Array.new(num_buckets) { LinkedList.new }
     @count = 0
+    @insertion_order = Array.new() #update when #get and #delete keys
   end
 
   def include?(key)
@@ -19,8 +20,13 @@ class HashMap
     case store[bucket(key)].include?(key)
     when true
       store[bucket(key)].update(key, val)
+
+      insertion_order.delete(key)
+      insertion_order.push(key)
     when false
       store[bucket(key)].append(key, val)
+
+      insertion_order.push(key)
       self.count += 1
     end
 
@@ -35,15 +41,26 @@ class HashMap
     case store[bucket(key)].include?(key)
     when true
       store[bucket(key)].remove(key)
+
+      insertion_order.delete(key)
       self.count -= 1
     end
   end
 
+  #original each method
+  # def each
+  #   store.each do |linked_list|
+  #     linked_list.each do |node|
+  #       yield(node.key, node.val)
+  #     end
+  #   end
+  # end
+
+  #new each method preserving insertion order
   def each
-    store.each do |linked_list|
-      linked_list.each do |node|
-        yield(node.key, node.val)
-      end
+    insertion_order.each do |key|
+      val = self.get(key)
+      yield(key, val)
     end
   end
 
@@ -60,7 +77,7 @@ class HashMap
 
   private
 
-  attr_accessor :store
+  attr_accessor :store, :insertion_order
 
   def num_buckets
     @store.length
